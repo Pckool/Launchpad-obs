@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+        <!-- <script type='text/javascript' src='./dist/obs-websocket.js'></script> -->
+        <script src="./js/jquery-3.3.1.min.js" charset="utf-8"></script>
+        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+
+        <link rel="stylesheet" href="./css/master.css">
+        <title></title>
+    </head>
+    <body>
+        <div class="content container-fluid">
+            <div class="row">
+                <div class="col-sm center-col">
+                    <input id="port" class="text" type="text" name="port" value="" placeholder="Port">
+                </div>
+                <div class="col-sm center-col">
+                    <input id="pass" class="text" type="password" name="pass" value="" placeholder="Password">
+                </div>
+                <div class="col-sm center-col">
+                    <button id="conn-to-obs" class="bttn" type="button" name="connectToOBS" >Connect to OBS</button>
+                </div>
+
+            </div>
+
+            <div class="row data-show">
+                <div id="scenes-list" class="col-sm">
+                    <div class="sub-box" hidden></div>
+                </div>
+                <div class="col-sm center-col">
+
+                </div>
+                <div class="col-sm center-col">
+
+                </div>
+            </div>
+
+        </div>
+
+    <script src="./js/home.js" charset="utf-8"></script>
+    </body>
+</html>
