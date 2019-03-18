@@ -85,3 +85,21 @@ p{
     max-height: 100%;
     overflow-y: auto;
 }
+
+.spacer{
+    border-color: rgb(26, 26, 26);
+    border-bottom-width: 1px;
+    width: 100%;
+    height: 2px;
+    padding: 0.3em;
+}
+
+.collapse-bttn{
+    color: rgb(55, 53, 53);
+}
+.right-col{
+    text-align: right;
+}
+.obs-conn-col{
+    margin-bottom: 0.5em;
+}

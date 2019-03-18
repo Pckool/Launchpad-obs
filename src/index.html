@@ -6,6 +6,7 @@
 
         <!-- <script type='text/javascript' src='./dist/obs-websocket.js'></script> -->
         <script src="./js/jquery-3.3.1.min.js" charset="utf-8"></script>
+        <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.2/css/all.css" integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr" crossorigin="anonymous">
         <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
 
         <link rel="stylesheet" href="./css/master.css">
@@ -13,25 +14,34 @@
     </head>
     <body>
         <div class="content container-fluid">
-            <div class="row">
-                <div class="col-sm center-col">
+            <div class="row connect-bar">
+                <div class="col-sm">
+
+                </div>
+                <div class="col-sm right-col">
+                    <a class="collapse-bttn" role="button" data-toggle="collapse" href="#connect-obs-row"><i class="fas fa-minus-square"></i></a>
+                </div>
+
+            </div>
+            <div id="connect-obs-row" class="row collapse show">
+                <div class="col-sm center-col obs-conn-col">
                     <input id="port" class="text" type="text" name="port" value="" placeholder="Port">
                 </div>
-                <div class="col-sm center-col">
+                <div class="col-sm center-col obs-conn-col">
                     <input id="pass" class="text" type="password" name="pass" value="" placeholder="Password">
                 </div>
-                <div class="col-sm center-col">
+                <div class="col-sm center-col obs-conn-col">
                     <button id="conn-to-obs" class="bttn" type="button" name="connectToOBS" >Connect to OBS</button>
                 </div>
 
             </div>
-
+            <div class="spacer"></div>
             <div class="row data-show">
                 <div id="scenes-list" class="col-sm">
                     <div class="sub-box" hidden></div>
                 </div>
-                <div class="col-sm center-col">
-
+                <div id="stats-list" class="col-sm center-col">
+                    <div class="sub-bot" hidden></div>
                 </div>
                 <div class="col-sm center-col">
 
@@ -39,7 +49,10 @@
             </div>
 
         </div>
-
-    <script src="./js/home.js" charset="utf-8"></script>
+        <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
+        <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+        <!-- User Scripts -->
+        <script src="./js/home.js" charset="utf-8"></script>
     </body>
 </html>

@@ -1,7 +1,7 @@
-import { app, BrowserWindow, ipcMain } from 'electron';
+import { app, BrowserWindow, ipcMain, dialog } from 'electron';
 const easymidi = require('easymidi');
 var input, output, outputChannel;
-
+const opn = require('opn');
 const OBSWebSocket = require('obs-websocket-js');
 
 const obs = new OBSWebSocket();
@@ -20,6 +20,7 @@ const createWindow = () => {
     mainWindow = new BrowserWindow({
         width: 800,
         height: 600,
+        minWidth: 280,
     });
 
     // and load the index.html of the app.
@@ -66,7 +67,18 @@ function connectToOBS(event={}, ws_data={}) {
         if(event) event.sender.send('OBS-conn');
     })
     .catch((err) => {
-        console.log("OBS Websocket not started. Please start manually.");
+        console.log(err);
+        dialog.showMessageBox({
+            type: "info",
+            title: "OBS Websocket Issue",
+            message: "There is an issue with your OBS Websocket. Youeither don't have it installed or don't have it",
+            buttons: ["Okay", "Download OBS Websocket"],
+
+        }, (res) => {
+            if(res === 1){
+                opn('https://obsproject.com/forum/resources/obs-websocket-remote-control-of-obs-studio-made-easy.466/');
+            }
+        });
     });
 }
 ipcMain.on('start-OBS', connectToOBS);
@@ -107,16 +119,30 @@ function findingOutputs() {
 }
 
 function setButtonColors() {
-    let i = 89;
-    console.log(`Outputchannel: ${outputChannel}`);
-    while(i >= 19){
-        output.send('noteon', {
-            channel: 0,
-            velocity: 120,
-            note: i
-        });
-        i = i-10;
-    }
+    obs.send('GetSceneList')
+    .then( (sceneList) => {
+        if(sceneList.scenes.length <= 8){
+            let maxNote = parseInt(`${sceneList.scenes.length}9`);
+            let offsetNote = 89 - maxNote + 9;
+            for(var pos = 89; pos > offsetNote; pos -= 10){
+                output.send('noteon', {
+                    channel: 0,
+                    velocity: 120,
+                    note: pos
+                });
+            }
+
+        }
+        // while(i >= 19){
+        //     output.send('noteon', {
+        //         channel: 0,
+        //         velocity: 120,
+        //         note: i
+        //     });
+        //     i = i-10;
+        // }
+    });
+
 }
 function blankColors(){
     output.send('sysex',[240, 0, 32, 41, 2, 24, 14, 0, 247]);
@@ -125,8 +151,9 @@ function blankColors(){
 function getScenes(event={}){
     obs.send('GetSceneList')
     .then( (sceneList) => {
-        console.log(sceneList);
+        //console.log(sceneList);
         if(event) event.sender.send('sceneList', sceneList);
+        else return sceneList;
     })
     .catch( (err) => {
         console.log(err);
@@ -134,6 +161,20 @@ function getScenes(event={}){
 }
 ipcMain.on('get-scenes', getScenes);
 
+function getStats(event={}){
+    obs.once('StreamStatus', function(statsList) {
+        console.log(statsList);
+        if(event) event.sender.send('statsList', statsList);
+    })
+    // .then( (statsList) => {
+    //     console.log(statsList);
+    //     if(event) event.sender.send('statsList', statsList);
+    // })
+    // .catch( (err) => {
+    //     console.log(err);
+    // });
+}
+ipcMain.on('get-stats', getStats);
 
 
 function setOnNotes() {
@@ -141,53 +182,20 @@ function setOnNotes() {
         obs.send('GetSceneList')
         .then((sceneList) => {
             console.log(params);
-            if(params.note === 89 && params.velocity > 0) {
-                obs.send('SetCurrentScene', { "scene-name": sceneList.scenes[0].name })
-                .catch( (err) => {
-                    console.log(err);
-                });
-            }
-            else if(params.note === 79 && params.velocity > 0) {
-                obs.send('SetCurrentScene', { "scene-name": sceneList.scenes[1].name })
-                .catch( (err) => {
-                    console.log(err);
-                });
-            }
-            else if(params.note === 69 && params.velocity > 0) {
-                obs.send('SetCurrentScene', { "scene-name": sceneList.scenes[2].name })
-                .catch( (err) => {
-                    console.log(err);
-                });
-            }
-            else if(params.note === 59 && params.velocity > 0) {
-                obs.send('SetCurrentScene', { "scene-name": sceneList.scenes[3].name })
-                .catch( (err) => {
-                    console.log(err);
-                });
-            }
-            else if(params.note === 49 && params.velocity > 0) {
-                obs.send('SetCurrentScene', { "scene-name": sceneList.scenes[4].name })
-                .catch( (err) => {
-                    console.log(err);
-                });
-            }
-            else if(params.note === 39 && params.velocity > 0) {
-                obs.send('SetCurrentScene', { "scene-name": sceneList.scenes[5].name })
-                .catch( (err) => {
-                    console.log(err);
-                });
-            }
-            else if(params.note === 29 && params.velocity > 0) {
-                obs.send('SetCurrentScene', { "scene-name": sceneList.scenes[6].name })
-                .catch( (err) => {
-                    console.log(err);
-                });
-            }
-            else if(params.note === 19 && params.velocity > 0) {
-                obs.send('SetCurrentScene', { "scene-name": sceneList.scenes[7].name })
-                .catch( (err) => {
-                    console.log(err);
-                });
+            if(sceneList.scenes.length <= 8){
+                let maxNote = parseInt(`${sceneList.scenes.length}9`);
+                let offsetNote = 89 - maxNote + 9;
+                let i = 0;
+                for(var pos = 89; pos > offsetNote; pos -= 10){
+                    if(params.note === pos && params.velocity > 0) {
+                        obs.send('SetCurrentScene', { "scene-name": sceneList.scenes[i].name })
+                        .catch( (err) => {
+                            console.log(err);
+                        });
+                        break;
+                    }
+                    i++;
+                }
             }
         })
         .catch((err) => {
