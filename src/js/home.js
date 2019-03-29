@@ -9,6 +9,16 @@ $(document).ready(function() {
         ipcRenderer.send('start-OBS', websocket_dat);
         ipcRenderer.once('OBS-conn', populateDat);
     });
+    $('.collapse-conn-bttn').on('click', () => {
+        if($('#connect-obs-row').hasClass('show')){
+            $('#collapse-conn-bttn-icon').toggleClass('fa-minus-square');
+            $('#collapse-conn-bttn-icon').toggleClass('fa-plus-square');
+        }
+        else{
+            $('#collapse-conn-bttn-icon').toggleClass('fa-minus-square');
+            $('#collapse-conn-bttn-icon').toggleClass('fa-plus-square');
+        }
+    });
 });
 
 function populateDat(){
