@@ -1,8 +1,8 @@
 {
   "name": "launchpad-obs",
-  "productName": "launchpad-obs",
+  "productName": "Launchpad OBS",
   "version": "1.0.0",
-  "description": "My Electron application description",
+  "description": "An application used to connect the novation launchpad to obs.",
   "main": "src/index.js",
   "repository": "https://github.com/Pckool/Launchpad-obs",
   "scripts": {
@@ -30,10 +30,13 @@
         ]
       },
       "electronPackagerConfig": {
-        "packageManager": "npm"
+        "packageManager": "npm",
+        "icon": "./src/media/images/lp-obs.ico",
+        "asar": true
       },
       "electronWinstallerConfig": {
-        "name": "launchpad_obs"
+        "name": "LaunchpadOBS",
+        "setupIcon": "./src/media/images/lp-obs.ico"
       },
       "electronInstallerDebian": {},
       "electronInstallerRedhat": {},
@@ -59,6 +62,7 @@
     "npm": "^6.9.0",
     "obs-websocket-js": "^2.0.1",
     "opn": "^5.4.0",
+    "path": "^0.12.7",
     "ws": "^6.2.0"
   },
   "devDependencies": {

@@ -1,4 +1,8 @@
-import { app, BrowserWindow, ipcMain, dialog } from 'electron';
+import { app, BrowserWindow, ipcMain, dialog, Tray } from 'electron';
+var path = require('path');
+
+const appIcon = path.join(__dirname, '/media/images/lp-obs.ico');
+
 const easymidi = require('easymidi');
 var input, output;
 const opn = require('opn');
@@ -24,6 +28,7 @@ const createWindow = () => {
         width: 280,
         height: 600,
         minWidth: 280,
+        icon: appIcon
     });
 
     // and load the index.html of the app.
@@ -58,8 +63,7 @@ app.on('activate', () => {
     }
 });
 
-// In this file you can include the rest of your app's specific main process
-// code. You can also put them in separate files and import them here.
+
 
 function connectToOBS(event={}, ws_data={}) {
     obs.connect({ address: `localhost:${ws_data.port || 4444}`, password: `${ws_data.password || 'password'}` })
