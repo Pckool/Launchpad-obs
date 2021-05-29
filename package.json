@@ -63,7 +63,7 @@
     "obs-websocket-js": "^2.0.1",
     "opn": "^5.4.0",
     "path": "^0.12.7",
-    "ws": "^6.2.0"
+    "ws": "^7.4.6"
   },
   "devDependencies": {
     "@fortawesome/fontawesome-free": "^5.7.2",
